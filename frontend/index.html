@@ -1,0 +1,2819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackedConnections</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    /* Skeumorphic Styles */
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #f0f0f0 url('https://www.transparenttextures.com/patterns/subtle-white-feathers.png');
+    }
+
+    .main-title {
+        font-family: 'Montserrat', sans-serif;
+        text-shadow: 1px 1px 1px rgba(255,255,255,0.7), -1px -1px 1px rgba(0,0,0,0.1);
+    }
+
+    .page-title {
+        text-shadow: 1px 1px 1px rgba(255,255,255,0.7), -1px -1px 1px rgba(0,0,0,0.1);
+    }
+
+    .skeumorphic {
+        background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
+        border: 1px solid #d0d0d0;
+        box-shadow: 
+            inset 0 1px 0 rgba(255,255,255,0.9),
+            0 1px 3px rgba(0,0,0,0.2),
+            0 3px 5px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        position: relative;
+    }
+
+    .skeumorphic::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 8px;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        pointer-events: none;
+    }
+
+    .skeumorphic-button {
+        background: linear-gradient(to bottom, #ffffff, #e6e6e6);
+        border: 1px solid #d0d0d0;
+        box-shadow: 
+            inset 0 1px 0 rgba(255,255,255,0.9),
+            0 1px 3px rgba(0,0,0,0.2);
+        border-radius: 6px;
+        transition: all 0.1s;
+        position: relative;
+    }
+
+    .skeumorphic-button:active {
+        background: linear-gradient(to bottom, #e6e6e6, #f0f0f0);
+        box-shadow: 
+            inset 0 2px 4px rgba(0,0,0,0.15),
+            0 1px 2px rgba(0,0,0,0.05);
+        transform: translateY(1px);
+    }
+
+    .skeumorphic-input {
+        background: #fff;
+        border: 1px solid #ccc;
+        box-shadow: 
+            inset 0 2px 4px rgba(0,0,0,0.1),
+            0 1px 0 rgba(255,255,255,0.9);
+        transition: all 0.2s;
+    }
+
+    .skeumorphic-input:focus {
+        outline: none;
+        box-shadow: 
+            inset 0 1px 3px rgba(0,0,0,0.1),
+            0 0 8px rgba(74, 144, 226, 0.6);
+        border-color: #4a90e2;
+    }
+
+    .nav-item {
+        text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+    }
+
+    .nav-item.active {
+        background: linear-gradient(to bottom, #4a90e2, #357abd);
+        color: white;
+        text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+        box-shadow: 
+            inset 0 1px 0 rgba(255,255,255,0.3),
+            0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    #content > div {
+        display: none;
+    }
+
+    #content > div.active {
+        display: block;
+    }
+
+    .calendar-day {
+        min-height: 100px;
+    }
+
+    .badge {
+        background: linear-gradient(45deg, #FFD700, #FFA500);
+        border: 1px solid #cc8400;
+        box-shadow: 
+            inset 0 1px 0 rgba(255,255,255,0.4),
+            0 1px 3px rgba(0,0,0,0.2);
+        text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    }
+
+    .skill-badge {
+        background: linear-gradient(to bottom, #4a90e2, #357abd);
+        color: white;
+        text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+    }
+
+    .rank-display {
+        position: relative;
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #f8f8f8, #e0e0e0);
+        box-shadow: 
+            inset 0 2px 5px rgba(0,0,0,0.1),
+            0 1px 0 rgba(255,255,255,0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ccc;
+    }
+
+    .rank-number {
+        font-size: 24px;
+        font-weight: bold;
+        color: #4a90e2;
+        text-shadow: 0 1px 0 rgba(255,255,255,1);
+    }
+
+    .progress-bar {
+        background: linear-gradient(to right, #4a90e2, #357abd);
+        box-shadow: 
+            inset 0 1px 0 rgba(255,255,255,0.3),
+            0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .progress-container {
+        background: linear-gradient(to bottom, #e0e0e0, #f0f0f0);
+        box-shadow: 
+            inset 0 1px 3px rgba(0,0,0,0.2),
+            0 1px 0 rgba(255,255,255,0.9);
+    }
+
+    .project-card {
+        transition: transform 0.2s;
+    }
+
+    .project-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        border-radius: 6px;
+        color: white;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        z-index: 9999;
+        transform: translateY(-100px);
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .hackathon-item {
+        transition: all 0.2s;
+    }
+
+    .hackathon-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 
+            inset 0 1px 0 rgba(255,255,255,0.9),
+            0 4px 6px rgba(0,0,0,0.15);
+    }
+</style>
+</head>
+<body class="bg-gray-100">
+    <nav class="skeumorphic bg-white p-4 mb-6 sticky top-0 z-10">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-600 main-title mb-4 md:mb-0">HackedConnections</h1>
+            <div class="flex flex-wrap gap-2 justify-center">
+                <button onclick="showSection('home')" class="skeumorphic-button px-4 py-2 rounded nav-item active">Home</button>
+                <button onclick="showSection('dashboard')" class="skeumorphic-button px-4 py-2 rounded nav-item">Dashboard</button>
+                <button onclick="showSection('profile')" class="skeumorphic-button px-4 py-2 rounded nav-item">Profile</button>
+                <button onclick="showSection('teams')" class="skeumorphic-button px-4 py-2 rounded nav-item">Teams</button>
+                <button onclick="showSection('calendar')" class="skeumorphic-button px-4 py-2 rounded nav-item">Calendar</button>
+                <button onclick="showAuthModal()" class="skeumorphic-button px-4 py-2 rounded" id="authButton">Login</button>
+                <button onclick="showOrganizerAuthModal()" class="skeumorphic-button px-4 py-2 rounded bg-gradient-to-b from-yellow-400 to-yellow-500 text-white" id="organizerAuthButton">Organizer</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <span id="toastMessage"></span>
+    </div>
+
+    <div id="content" class="container mx-auto px-4 pb-10">
+        <!-- Home Section -->
+        <div id="home" class="active">
+            <div class="skeumorphic p-8 mb-8 text-center">
+                <h2 class="text-4xl font-bold mb-4 page-title">Find Your Perfect Hackathon Team</h2>
+                <p class="text-lg mb-6">Connect with talented developers, designers, and innovators. Build amazing projects together.</p>
+                <button onclick="showSection('teams')" class="skeumorphic-button px-6 py-3 rounded text-lg font-semibold">Get Started</button>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="skeumorphic p-6 text-center">
+                    <div class="flex justify-center">
+                        <i class="bi bi-people-fill text-4xl text-blue-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mt-4">Team Matching</h3>
+                    <p class="mt-2">Our AI-powered algorithm finds teammates based on skills, interests, and compatibility</p>
+                </div>
+                <div class="skeumorphic p-6 text-center">
+                    <div class="flex justify-center">
+                        <i class="bi bi-trophy-fill text-4xl text-yellow-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mt-4">Track Achievements</h3>
+                    <p class="mt-2">Showcase your hackathon victories and earn badges for your accomplishments</p>
+                </div>
+                <div class="skeumorphic p-6 text-center">
+                    <div class="flex justify-center">
+                        <i class="bi bi-calendar-event text-4xl text-green-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mt-4">Event Planning</h3>
+                    <p class="mt-2">Organize your hackathon schedule and coordinate with your team seamlessly</p>
+                </div>
+            </div>
+
+            <div class="skeumorphic p-6 mt-8">
+                <h3 class="text-2xl font-bold mb-4 text-center page-title">How It Works</h3>
+                <div class="grid md:grid-cols-4 gap-4 mt-6">
+                    <div class="text-center">
+                        <div class="flex justify-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl font-bold">1</div>
+                        </div>
+                        <h4 class="mt-4 font-semibold">Create Profile</h4>
+                        <p class="mt-2 text-sm">Showcase your skills, projects, and experience</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="flex justify-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl font-bold">2</div>
+                        </div>
+                        <h4 class="mt-4 font-semibold">Find Hackathons</h4>
+                        <p class="mt-2 text-sm">Discover upcoming events that match your interests</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="flex justify-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl font-bold">3</div>
+                        </div>
+                        <h4 class="mt-4 font-semibold">Join Teams</h4>
+                        <p class="mt-2 text-sm">Find the perfect team or create your own</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="flex justify-center">
+                            <div class="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl font-bold">4</div>
+                        </div>
+                        <h4 class="mt-4 font-semibold">Build & Win</h4>
+                        <p class="mt-2 text-sm">Collaborate, create, and conquer hackathon challenges</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard">
+            <div class="skeumorphic p-6 mb-6">
+                <h2 class="text-2xl font-bold mb-4 page-title">Your Dashboard</h2>
+                <p class="mb-4" id="dashboardMessage">Welcome to your personal hackathon headquarters. Track your events, teams, and progress.</p>
+                
+                <div class="flex gap-4 overflow-x-auto pb-2">
+                    <div class="skeumorphic-button px-4 py-2 rounded whitespace-nowrap active" onclick="showDashboardTab('upcoming')">Upcoming Hackathons</div>
+                    <div class="skeumorphic-button px-4 py-2 rounded whitespace-nowrap" onclick="showDashboardTab('ongoing')">Ongoing Hackathons</div>
+                    <div class="skeumorphic-button px-4 py-2 rounded whitespace-nowrap" onclick="showDashboardTab('myteams')">My Teams</div>
+                </div>
+            </div>
+            
+            <div class="dashboard-tab" id="upcoming-tab">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="skeumorphic p-6">
+                        <h3 class="text-xl font-bold mb-4">Upcoming Hackathons</h3>
+                        <div class="space-y-4" id="upcomingHackathons">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                    <div class="skeumorphic p-6">
+                        <h3 class="text-xl font-bold mb-4">Recommended For You</h3>
+                        <div class="space-y-4" id="recommendedHackathons">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-tab hidden" id="ongoing-tab">
+                <div class="skeumorphic p-6">
+                    <h3 class="text-xl font-bold mb-4">Ongoing Hackathons</h3>
+                    <div id="ongoingHackathons">
+                        <!-- Dynamically populated -->
+                        <div class="text-center py-8">
+                            <i class="bi bi-calendar-x text-4xl text-gray-400"></i>
+                            <p class="mt-4 text-gray-500">You don't have any ongoing hackathons yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-tab hidden" id="myteams-tab">
+                <div class="skeumorphic p-6">
+                    <h3 class="text-xl font-bold mb-4">My Teams</h3>
+                    <div id="myTeams">
+                        <!-- Dynamically populated -->
+                        <div class="text-center py-8">
+                            <i class="bi bi-people text-4xl text-gray-400"></i>
+                            <p class="mt-4 text-gray-500">You haven't joined any teams yet.</p>
+                            <button onclick="showSection('teams')" class="skeumorphic-button px-4 py-2 rounded mt-4">Find a Team</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div id="profile">
+            <div class="skeumorphic p-6 mb-6" id="profileLoginMessage">
+                <div class="text-center py-8">
+                    <i class="bi bi-person-lock text-5xl text-gray-400"></i>
+                    <h3 class="text-xl font-bold mt-4">Please log in to view your profile</h3>
+                    <p class="mt-2 text-gray-500">Create an account or log in to showcase your skills and achievements.</p>
+                    <button onclick="showAuthModal()" class="skeumorphic-button px-6 py-2 rounded mt-4">Login / Sign Up</button>
+                </div>
+            </div>
+
+            <div class="hidden" id="profileContent">
+                <div class="skeumorphic p-6 mb-6">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/4">
+                            <div class="relative group">
+                                <div class="w-32 h-32 rounded-full bg-gray-300 overflow-hidden mx-auto" id="profilePic">
+                                    <img id="profileImage" src="https://via.placeholder.com/300x300?text=Upload+Image" alt="Profile picture" class="w-full h-full object-cover">
+                                </div>
+                                <button onclick="document.getElementById('profilePicInput').click()" class="absolute bottom-0 right-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white skeumorphic-button border-2 border-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i class="bi bi-camera"></i>
+                                </button>
+                                <input type="file" id="profilePicInput" accept="image/*" class="hidden" onchange="updateProfilePic(event)">
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <div class="rank-display mx-auto">
+                                    <span class="rank-number" id="userRank">-</span>
+                                </div>
+                                <p class="text-sm mt-2 text-gray-600">Current Rank</p>
+                            </div>
+                            
+                            <div class="mt-4 flex flex-wrap justify-center gap-2" id="userBadges">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+                        
+                        <div class="md:w-3/4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h2 class="text-2xl font-bold" id="userName">-</h2>
+                                    <p class="text-gray-600" id="userBio">-</p>
+                                </div>
+                                <button onclick="toggleEditProfile()" class="skeumorphic-button px-3 py-2 rounded text-sm">
+                                    <i class="bi bi-pencil mr-1"></i> Edit Profile
+                                </button>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <h3 class="text-lg font-bold mb-2">Experience Level</h3>
+                                <div class="progress-container rounded-full h-4 overflow-hidden">
+                                    <div class="progress-bar h-full" id="experienceBar" style="width: 0%"></div>
+                                </div>
+                                <div class="flex justify-between mt-1 text-sm">
+                                    <span>Beginner</span>
+                                    <span>Intermediate</span>
+                                    <span>Advanced</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <h3 class="text-lg font-bold mb-2">Contact Information</h3>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center">
+                                            <i class="bi bi-envelope text-blue-500 mr-2"></i>
+                                            <span id="userEmail">-</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="bi bi-globe text-blue-500 mr-2"></i>
+                                            <span id="userWebsite">-</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="bi bi-github text-blue-500 mr-2"></i>
+                                            <span id="userGithub">-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h3 class="text-lg font-bold mb-2">Availability</h3>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center">
+                                            <i class="bi bi-calendar-check text-blue-500 mr-2"></i>
+                                            <span id="userAvailability">-</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="bi bi-geo-alt text-blue-500 mr-2"></i>
+                                            <span id="userLocation">-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="skeumorphic p-6">
+                        <h3 class="text-xl font-bold mb-4">Skills</h3>
+                        <div class="mb-4">
+                            <h4 class="font-semibold mb-2">Frontend</h4>
+                            <div class="flex flex-wrap gap-2" id="frontendSkills">
+                                <!-- Dynamically populated -->
+                                <p class="text-sm text-gray-500">No skills added yet</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <h4 class="font-semibold mb-2">Backend</h4>
+                            <div class="flex flex-wrap gap-2" id="backendSkills">
+                                <!-- Dynamically populated -->
+                                <p class="text-sm text-gray-500">No skills added yet</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Other</h4>
+                            <div class="flex flex-wrap gap-2" id="otherSkills">
+                                <!-- Dynamically populated -->
+                                <p class="text-sm text-gray-500">No skills added yet</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skeumorphic p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold">Projects</h3>
+                            <button onclick="showAddProjectModal()" class="skeumorphic-button px-3 py-1 rounded text-sm">
+                                <i class="bi bi-plus"></i> Add Project
+                            </button>
+                        </div>
+                        <div class="space-y-4" id="projectsList">
+                            <!-- Dynamically populated -->
+                            <p class="text-sm text-gray-500">No projects added yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skeumorphic p-6 mt-6">
+                    <h3 class="text-xl font-bold mb-4">Achievements</h3>
+                    <div class="grid md:grid-cols-3 gap-4" id="achievementsList">
+                        <!-- Dynamically populated -->
+                        <p class="text-sm text-gray-500">No achievements added yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teams Section -->
+        <div id="teams">
+            <div class="skeumorphic p-6 mb-6">
+                <h2 class="text-2xl font-bold mb-4 page-title">Team Matching</h2>
+                <p class="mb-4">Find the perfect teammates for your next hackathon or create your own team.</p>
+                
+                <div class="flex gap-4 overflow-x-auto pb-2">
+                    <div class="skeumorphic-button px-4 py-2 rounded whitespace-nowrap active" onclick="showTeamTab('find')">Find a Team</div>
+                    <div class="skeumorphic-button px-4 py-2 rounded whitespace-nowrap" onclick="showTeamTab('create')">Create a Team</div>
+                    <div class="skeumorphic-button px-4 py-2 rounded whitespace-nowrap" onclick="showTeamTab('matching')">AI Matching</div>
+                </div>
+            </div>
+
+            <div class="team-tab" id="find-tab">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="md:col-span-1">
+                        <div class="skeumorphic p-6">
+                            <h3 class="text-xl font-bold mb-4">Filter Teams</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Hackathon</label>
+                                    <select class="skeumorphic-input w-full px-4 py-2 rounded" id="teamHackathonFilter">
+                                        <option value="all">All Hackathons</option>
+                                        <!-- Dynamically populated -->
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Skills Needed</label>
+                                    <select class="skeumorphic-input w-full px-4 py-2 rounded" id="teamSkillsFilter">
+                                        <option value="all">All Skills</option>
+                                        <option value="frontend">Frontend Development</option>
+                                        <option value="backend">Backend Development</option>
+                                        <option value="ui/ux">UI/UX Design</option>
+                                        <option value="ml">Machine Learning</option>
+                                        <option value="blockchain">Blockchain</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Experience Level</label>
+                                    <select class="skeumorphic-input w-full px-4 py-2 rounded" id="teamExperienceFilter">
+                                        <option value="all">All Levels</option>
+                                        <option value="beginner">Beginner</option>
+                                        <option value="intermediate">Intermediate</option>
+                                        <option value="advanced">Advanced</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Team Size</label>
+                                    <select class="skeumorphic-input w-full px-4 py-2 rounded" id="teamSizeFilter">
+                                        <option value="all">Any Size</option>
+                                        <option value="small">2-3 members</option>
+                                        <option value="medium">4-5 members</option>
+                                        <option value="large">6+ members</option>
+                                    </select>
+                                </div>
+                                <button class="skeumorphic-button px-4 py-2 rounded w-full" onclick="applyTeamFilters()">Apply Filters</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <div class="skeumorphic p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-xl font-bold">Available Teams</h3>
+                                <div class="relative">
+                                    <input type="text" placeholder="Search teams..." class="skeumorphic-input px-4 py-2 rounded pl-9" id="teamSearchInput">
+                                    <i class="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                </div>
+                            </div>
+
+                            <div class="space-y-4" id="teamsList">
+                                <!-- Dynamically populated -->
+                                <div class="text-center py-8" id="noTeamsMessage">
+                                    <i class="bi bi-people text-4xl text-gray-400"></i>
+                                    <p class="mt-4 text-gray-500">No teams available that match your filters.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-tab hidden" id="create-tab">
+                <div class="skeumorphic p-6">
+                    <h3 class="text-xl font-bold mb-4">Create a New Team</h3>
+                    <form id="createTeamForm" class="space-y-4">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Team Name*</label>
+                                <input type="text" placeholder="Enter your team name" class="skeumorphic-input w-full px-4 py-2 rounded" required id="teamName">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Hackathon*</label>
+                                <select class="skeumorphic-input w-full px-4 py-2 rounded" required id="teamHackathon">
+                                    <option value="">Select a hackathon</option>
+                                    <!-- Dynamically populated -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div id="otherHackathonField" class="hidden">
+                            <label class="block text-sm font-medium mb-1">Other Hackathon Name</label>
+                            <input type="text" placeholder="Enter hackathon name" class="skeumorphic-input w-full px-4 py-2 rounded" id="otherHackathon">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Team Description*</label>
+                            <textarea placeholder="Describe your project idea and team goals" class="skeumorphic-input w-full px-4 py-2 rounded h-24" required id="teamDescription"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Skills Needed</label>
+                            <div class="flex flex-wrap gap-2 mb-2" id="skillOptions">
+                                <div class="skeumorphic-button px-3 py-1 cursor-pointer skill-option" data-skill="frontend">Frontend</div>
+                                <div class="skeumorphic-button px-3 py-1 cursor-pointer skill-option" data-skill="backend">Backend</div>
+                                <div class="skeumorphic-button px-3 py-1 cursor-pointer skill-option" data-skill="ui/ux">UI/UX</div>
+                                <div class="skeumorphic-button px-3 py-1 cursor-pointer skill-option" data-skill="ml">Machine Learning</div>
+                                <div class="skeumorphic-button px-3 py-1 cursor-pointer skill-option" data-skill="blockchain">Blockchain</div>
+                                <div class="skeumorphic-button px-3 py-1 cursor-pointer skill-option" data-skill="mobile">Mobile Dev</div>
+                            </div>
+                            <input type="hidden" id="selectedSkills">
+                            <input type="text" placeholder="Add more specific skills (comma separated)" class="skeumorphic-input w-full px-4 py-2 rounded" id="additionalSkills">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Team Size</label>
+                            <select class="skeumorphic-input w-full px-4 py-2 rounded" id="teamSize">
+                                <option value="small">2-3 members</option>
+                                <option value="medium">4-5 members</option>
+                                <option value="large">6+ members</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="skeumorphic-button px-4 py-2 rounded w-full">Create Team</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="team-tab hidden" id="matching-tab">
+                <div class="skeumorphic p-6 mb-6 text-center">
+                    <div class="mb-6">
+                        <i class="bi bi-people-fill text-5xl text-blue-500"></i>
+                        <h3 class="text-2xl font-bold mt-4">Skill Based Team Matching</h3>
+                        <p class="mt-2">Our advanced algorithm will analyze your skills, experience, and preferences to find the perfect teammates.</p>
+                    </div>
+                    <button id="startMatchingBtn" class="skeumorphic-button px-6 py-3 rounded text-lg">Start Matching</button>
+                </div>
+                
+                <div id="matchingResults" class="hidden">
+                    <div class="skeumorphic p-6">
+                        <h3 class="text-xl font-bold mb-4">Your Matches</h3>
+                        <p class="mb-4">Based on your profile, we've found these potential teammates:</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-4" id="matchesList">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar Section -->
+        <div id="calendar">
+            <div class="skeumorphic p-6 mb-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                    <h2 class="text-2xl font-bold page-title mb-4 md:mb-0">Hackathon Calendar</h2>
+                    <div class="flex gap-2">
+                        <button id="prevMonth" class="skeumorphic-button px-3 py-1 rounded">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <div class="skeumorphic px-4 py-1 rounded text-center min-w-[150px]" id="currentMonth"></div>
+                        <button id="nextMonth" class="skeumorphic-button px-3 py-1 rounded">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-7 gap-2 mb-2">
+                    <div class="text-center font-bold">Sun</div>
+                    <div class="text-center font-bold">Mon</div>
+                    <div class="text-center font-bold">Tue</div>
+                    <div class="text-center font-bold">Wed</div>
+                    <div class="text-center font-bold">Thu</div>
+                    <div class="text-center font-bold">Fri</div>
+                    <div class="text-center font-bold">Sat</div>
+                </div>
+
+                <div id="calendarGrid" class="grid grid-cols-7 gap-2">
+                    <!-- Calendar days will be populated dynamically -->
+                </div>
+            </div>
+            
+            <div class="skeumorphic p-6">
+                <h3 class="text-xl font-bold mb-4">Upcoming Events</h3>
+                <div id="upcomingEvents" class="space-y-4">
+                    <!-- Dynamically populated -->
+                    <div class="text-center py-8" id="noEventsMessage">
+                        <i class="bi bi-calendar-x text-4xl text-gray-400"></i>
+                        <p class="mt-4 text-gray-500">No upcoming events available.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="skeumorphic bg-white p-6 rounded-lg w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold" id="authTitle">Login</h2>
+                <button onclick="closeAuthModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <form id="authForm" class="space-y-4">
+                <div id="signupFields" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Full Name</label>
+                        <input type="text" id="fullName" placeholder="Enter your full name" class="skeumorphic-input w-full px-4 py-2 rounded">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Username</label>
+                            <input type="text" id="username" placeholder="Choose a username" class="skeumorphic-input w-full px-4 py-2 rounded">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Phone</label>
+                            <input type="tel" id="phone" placeholder="Your phone number" class="skeumorphic-input w-full px-4 py-2 rounded">
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" class="skeumorphic-input w-full px-4 py-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" class="skeumorphic-input w-full px-4 py-2 rounded">
+                </div>
+                <button type="submit" class="skeumorphic-button px-4 py-2 rounded w-full">Submit</button>
+            </form>
+            <p class="mt-4 text-center">
+                <a href="#" onclick="toggleAuth()" class="text-blue-600" id="authToggleText">Don't have an account? Sign Up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Organizer Auth Modal -->
+    <div id="organizerAuthModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="skeumorphic bg-white p-6 rounded-lg w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold" id="organizerAuthTitle">Organizer Login</h2>
+                <button onclick="closeOrganizerAuthModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <form id="organizerAuthForm" class="space-y-4">
+                <div id="organizerSignupFields" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Organization Name</label>
+                        <input type="text" id="orgName" placeholder="Enter your organization name" class="skeumorphic-input w-full px-4 py-2 rounded">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Contact Person</label>
+                        <input type="text" id="orgContact" placeholder="Full name of contact person" class="skeumorphic-input w-full px-4 py-2 rounded">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Phone</label>
+                        <input type="tel" id="orgPhone" placeholder="Organization phone number" class="skeumorphic-input w-full px-4 py-2 rounded">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Organization Website</label>
+                        <input type="url" id="orgWebsite" placeholder="https://your-organization.com" class="skeumorphic-input w-full px-4 py-2 rounded">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Email</label>
+                    <input type="email" id="orgEmail" placeholder="Enter your email" class="skeumorphic-input w-full px-4 py-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Password</label>
+                    <input type="password" id="orgPassword" placeholder="Enter your password" class="skeumorphic-input w-full px-4 py-2 rounded">
+                </div>
+                <button type="submit" class="skeumorphic-button px-4 py-2 rounded w-full bg-gradient-to-b from-yellow-400 to-yellow-500 text-white">Submit</button>
+            </form>
+            <p class="mt-4 text-center">
+                <a href="#" onclick="toggleOrganizerAuth()" class="text-yellow-600" id="organizerAuthToggleText">Don't have an organizer account? Sign Up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Add Project Modal -->
+    <div id="addProjectModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="skeumorphic bg-white p-6 rounded-lg w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Add New Project</h2>
+                <button onclick="closeProjectModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <form id="addProjectForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Project Name*</label>
+                    <input type="text" placeholder="Enter project name" class="skeumorphic-input w-full px-4 py-2 rounded" required id="projectName">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Hackathon/Event</label>
+                    <input type="text" placeholder="Where was this project built?" class="skeumorphic-input w-full px-4 py-2 rounded" id="projectEvent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Project Description*</label>
+                    <textarea placeholder="Describe your project" class="skeumorphic-input w-full px-4 py-2 rounded h-24" required id="projectDescription"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Technologies Used</label>
+                    <input type="text" placeholder="e.g., React, Python, MongoDB (comma separated)" class="skeumorphic-input w-full px-4 py-2 rounded" id="projectTech">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Project Link</label>
+                    <input type="url" placeholder="GitHub or demo link" class="skeumorphic-input w-full px-4 py-2 rounded" id="projectLink">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Achievement</label>
+                    <select class="skeumorphic-input w-full px-4 py-2 rounded" id="projectAchievement">
+                        <option value="">Select an achievement (if applicable)</option>
+                        <option value="1st Place">1st Place</option>
+                        <option value="2nd Place">2nd Place</option>
+                        <option value="3rd Place">3rd Place</option>
+                        <option value="Best UI/UX">Best UI/UX</option>
+                        <option value="Most Innovative">Most Innovative</option>
+                        <option value="People's Choice">People's Choice</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="skeumorphic-button px-4 py-2 rounded w-full">Add Project</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Hackathon Modal (for organizers) -->
+    <div id="addHackathonModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="skeumorphic bg-white p-6 rounded-lg w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Post a New Hackathon</h2>
+                <button onclick="closeHackathonModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <form id="addHackathonForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Hackathon Name*</label>
+                    <input type="text" placeholder="Enter the hackathon name" class="skeumorphic-input w-full px-4 py-2 rounded" required id="hackathonName">
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Start Date*</label>
+                        <input type="date" class="skeumorphic-input w-full px-4 py-2 rounded" required id="hackathonStart">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">End Date*</label>
+                        <input type="date" class="skeumorphic-input w-full px-4 py-2 rounded" required id="hackathonEnd">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Location Type*</label>
+                    <select class="skeumorphic-input w-full px-4 py-2 rounded" required id="hackathonLocationType">
+                        <option value="virtual">Virtual</option>
+                        <option value="in_person">In-Person</option>
+                        <option value="hybrid">Hybrid</option>
+                    </select>
+                </div>
+                
+                <div id="locationField" class="hidden">
+                    <label class="block text-sm font-medium mb-1">Physical Location</label>
+                    <input type="text" placeholder="City, Country or Venue" class="skeumorphic-input w-full px-4 py-2 rounded" id="hackathonLocation">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Description*</label>
+                    <textarea placeholder="Describe the hackathon, its theme, and objectives" class="skeumorphic-input w-full px-4 py-2 rounded h-24" required id="hackathonDescription"></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Theme/Focus Areas</label>
+                    <input type="text" placeholder="e.g., AI, Blockchain, Climate Tech (comma separated)" class="skeumorphic-input w-full px-4 py-2 rounded" id="hackathonThemes">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Prizes</label>
+                    <textarea placeholder="Describe the prizes and awards" class="skeumorphic-input w-full px-4 py-2 rounded h-16" id="hackathonPrizes"></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Registration Deadline</label>
+                    <input type="date" class="skeumorphic-input w-full px-4 py-2 rounded" id="hackathonDeadline">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Event Website</label>
+                    <input type="url" placeholder="https://your-hackathon.com" class="skeumorphic-input w-full px-4 py-2 rounded" id="hackathonWebsite">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Contact Email</label>
+                    <input type="email" placeholder="contact@your-hackathon.com" class="skeumorphic-input w-full px-4 py-2 rounded" id="hackathonEmail">
+                </div>
+                
+                <button type="submit" class="skeumorphic-button px-4 py-2 rounded w-full bg-gradient-to-b from-yellow-400 to-yellow-500 text-white">Post Hackathon</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="skeumorphic bg-white p-6 rounded-lg w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Edit Profile</h2>
+                <button onclick="closeEditProfileModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <form id="editProfileForm" class="space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-bold mb-3">Personal Information</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Full Name</label>
+                                <input type="text" id="editFullName" class="skeumorphic-input w-full px-4 py-2 rounded">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Bio</label>
+                                <textarea id="editBio" class="skeumorphic-input w-full px-4 py-2 rounded h-24" placeholder="Tell us about yourself"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Email</label>
+                                <input type="email" id="editEmail" class="skeumorphic-input w-full px-4 py-2 rounded">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Website</label>
+                                <input type="url" id="editWebsite" placeholder="Your personal website" class="skeumorphic-input w-full px-4 py-2 rounded">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">GitHub</label>
+                                <input type="text" id="editGithub" placeholder="Your GitHub username" class="skeumorphic-input w-full px-4 py-2 rounded">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-bold mb-3">Skills & Experience</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Experience Level</label>
+                                <select id="editExperience" class="skeumorphic-input w-full px-4 py-2 rounded">
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Frontend Skills</label>
+                                <input type="text" id="editFrontendSkills" placeholder="JavaScript, React, CSS, HTML" class="skeumorphic-input w-full px-4 py-2 rounded">
+                                <p class="text-xs text-gray-500 mt-1">Comma-separated list</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Backend Skills</label>
+                                <input type="text" id="editBackendSkills" placeholder="Node.js, Python, MongoDB" class="skeumorphic-input w-full px-4 py-2 rounded">
+                                <p class="text-xs text-gray-500 mt-1">Comma-separated list</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Other Skills</label>
+                                <input type="text" id="editOtherSkills" placeholder="UI/UX Design, Git, Project Management" class="skeumorphic-input w-full px-4 py-2 rounded">
+                                <p class="text-xs text-gray-500 mt-1">Comma-separated list</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Location</label>
+                                <input type="text" id="editLocation" placeholder="City, Country" class="skeumorphic-input w-full px-4 py-2 rounded">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Availability</label>
+                                <select id="editAvailability" class="skeumorphic-input w-full px-4 py-2 rounded">
+                                    <option value="Available for upcoming hackathons">Available for upcoming hackathons</option>
+                                    <option value="Limited availability">Limited availability</option>
+                                    <option value="Not available currently">Not available currently</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="skeumorphic-button px-4 py-2 rounded w-full">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+<script>
+// User Authentication State
+let isLoggedIn = false;
+let isOrganizerLoggedIn = false;
+let isLogin = true;
+let isOrganizerLogin = true;
+let currentUser = null;
+let currentOrganizer = null;
+const users = [];
+const organizers = [];
+const hackathons = [];
+const teams = [];
+const events = {};
+
+// Navigation
+function showSection(sectionId) {
+    document.querySelectorAll('#content > div').forEach(div => div.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+    document.getElementById(sectionId).classList.add('active');
+    document.querySelector(`button[onclick="showSection('${sectionId}')"]`)?.classList.add('active');
+    
+    // Check if user is trying to access profile without login
+    if (sectionId === 'profile' && !isLoggedIn) {
+        document.getElementById('profileLoginMessage').classList.remove('hidden');
+        document.getElementById('profileContent').classList.add('hidden');
+    } else if (sectionId === 'profile' && isLoggedIn) {
+        document.getElementById('profileLoginMessage').classList.add('hidden');
+        document.getElementById('profileContent').classList.remove('hidden');
+    }
+    
+    // Update dashboard message if logged in
+    if (sectionId === 'dashboard' && isLoggedIn) {
+        document.getElementById('dashboardMessage').textContent = `Welcome back, ${currentUser.name}! Here's your hackathon headquarters.`;
+    }
+    
+    // If showing calendar, refresh it
+    if (sectionId === 'calendar') {
+        populateCalendar();
+    }
+    
+    // If showing teams, populate hackathon dropdown
+    if (sectionId === 'teams') {
+        populateHackathonDropdowns();
+        loadTeams();
+    }
+    
+    // If showing dashboard, refresh hackathon lists
+    if (sectionId === 'dashboard') {
+        updateDashboardHackathons();
+    }
+}
+
+// Dashboard Tabs
+function showDashboardTab(tabId) {
+    document.querySelectorAll('.dashboard-tab').forEach(tab => tab.classList.add('hidden'));
+    document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+    
+    // Update active state on tab buttons
+    document.querySelectorAll('.skeumorphic-button').forEach(btn => {
+        if (btn.textContent.toLowerCase().includes(tabId.toLowerCase())) {
+            btn.classList.add('active');
+        } else if (['upcoming', 'ongoing', 'myteams'].some(tab => btn.textContent.toLowerCase().includes(tab))) {
+            btn.classList.remove('active');
+        }
+    });
+}
+
+// Team Tabs
+function showTeamTab(tabId) {
+    document.querySelectorAll('.team-tab').forEach(tab => tab.classList.add('hidden'));
+    document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+    
+    // Update active state on tab buttons
+    const tabButtons = document.querySelectorAll('.skeumorphic-button');
+    tabButtons.forEach(btn => {
+        if (btn.textContent.toLowerCase().includes(tabId.toLowerCase())) {
+            btn.classList.add('active');
+        } else if (['find', 'create', 'matching'].some(tab => btn.textContent.toLowerCase().includes(tab))) {
+            btn.classList.remove('active');
+        }
+    });
+}
+
+// Auth Modal functions
+function showAuthModal() {
+    document.getElementById('authModal').classList.remove('hidden');
+}
+
+function closeAuthModal() {
+    document.getElementById('authModal').classList.add('hidden');
+}
+
+function toggleAuth() {
+    isLogin = !isLogin;
+    document.getElementById('authTitle').textContent = isLogin ? 'Login' : 'Sign Up';
+    document.getElementById('authToggleText').textContent = isLogin ? 'Don\'t have an account? Sign Up' : 'Already have an account? Login';
+    document.getElementById('signupFields').classList.toggle('hidden', isLogin);
+}
+
+// Organizer Auth Modal functions
+function showOrganizerAuthModal() {
+    document.getElementById('organizerAuthModal').classList.remove('hidden');
+}
+
+function closeOrganizerAuthModal() {
+    document.getElementById('organizerAuthModal').classList.add('hidden');
+}
+
+function toggleOrganizerAuth() {
+    isOrganizerLogin = !isOrganizerLogin;
+    document.getElementById('organizerAuthTitle').textContent = isOrganizerLogin ? 'Organizer Login' : 'Organizer Sign Up';
+    document.getElementById('organizerAuthToggleText').textContent = isOrganizerLogin ? 'Don\'t have an organizer account? Sign Up' : 'Already have an organizer account? Login';
+    document.getElementById('organizerSignupFields').classList.toggle('hidden', isOrganizerLogin);
+}
+
+// Project Modal functions
+function showAddProjectModal() {
+    if (!isLoggedIn) {
+        showToast('Please login to add projects', 'error');
+        setTimeout(() => {
+            showAuthModal();
+        }, 1000);
+        return;
+    }
+    document.getElementById('addProjectModal').classList.remove('hidden');
+}
+
+function closeProjectModal() {
+    document.getElementById('addProjectModal').classList.add('hidden');
+}
+
+// Hackathon Modal functions
+function showAddHackathonModal() {
+    if (!isOrganizerLoggedIn) {
+        showToast('Please login as an organizer to post hackathons', 'error');
+        setTimeout(() => {
+            showOrganizerAuthModal();
+        }, 1000);
+        return;
+    }
+    document.getElementById('addHackathonModal').classList.remove('hidden');
+    
+    // Setup location type change listener
+    document.getElementById('hackathonLocationType').addEventListener('change', function() {
+        const locationField = document.getElementById('locationField');
+        if (this.value === 'virtual') {
+            locationField.classList.add('hidden');
+        } else {
+            locationField.classList.remove('hidden');
+        }
+    });
+}
+
+function closeHackathonModal() {
+    document.getElementById('addHackathonModal').classList.add('hidden');
+}
+
+// Edit Profile Modal functions
+function toggleEditProfile() {
+    if (!isLoggedIn) {
+        showToast('Please login to edit your profile', 'error');
+        setTimeout(() => {
+            showAuthModal();
+        }, 1000);
+        return;
+    }
+    
+    // Populate form with current user data
+    document.getElementById('editFullName').value = currentUser.name || '';
+    document.getElementById('editBio').value = currentUser.bio || '';
+    document.getElementById('editEmail').value = currentUser.email || '';
+    document.getElementById('editWebsite').value = currentUser.website || '';
+    document.getElementById('editGithub').value = currentUser.github || '';
+    document.getElementById('editLocation').value = currentUser.location || '';
+    document.getElementById('editAvailability').value = currentUser.availability || 'Available for upcoming hackathons';
+    document.getElementById('editExperience').value = currentUser.experience || 'beginner';
+    document.getElementById('editFrontendSkills').value = (currentUser.skills?.frontend || []).join(', ');
+    document.getElementById('editBackendSkills').value = (currentUser.skills?.backend || []).join(', ');
+    document.getElementById('editOtherSkills').value = (currentUser.skills?.other || []).join(', ');
+    
+    document.getElementById('editProfileModal').classList.remove('hidden');
+}
+
+function closeEditProfileModal() {
+    document.getElementById('editProfileModal').classList.add('hidden');
+}
+
+// Toast Notification
+function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+    
+    toast.classList.remove('hidden', 'bg-green-500', 'bg-red-500', 'bg-blue-500');
+    
+    if (type === 'success') {
+        toast.classList.add('bg-green-500');
+    } else if (type === 'error') {
+        toast.classList.add('bg-red-500');
+    } else {
+        toast.classList.add('bg-blue-500');
+    }
+    
+    toastMessage.textContent = message;
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.classList.add('hidden');
+        }, 300);
+    }, 3000);
+}
+
+// Profile Picture Update
+function updateProfilePic(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('profileImage').src = e.target.result;
+            
+            if (currentUser) {
+                currentUser.profilePic = e.target.result;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// AI Matching
+document.addEventListener('click', function(e) {
+    if (e.target.id === 'startMatchingBtn') {
+        if (!isLoggedIn) {
+            showToast('Please login to use the AI matching feature', 'error');
+            setTimeout(() => {
+                showAuthModal();
+            }, 1000);
+            return;
+        }
+        
+        if (!currentUser.skills || (!currentUser.skills.frontend && !currentUser.skills.backend && !currentUser.skills.other)) {
+            showToast('Please complete your profile and add skills before using AI matching', 'error');
+            return;
+        }
+        
+        // Show loading state
+        e.target.innerHTML = '<i class="bi bi-arrow-repeat animate-spin mr-2"></i> Analyzing Profile...';
+        e.target.disabled = true;
+        
+        // Simulate AI matching process
+        setTimeout(() => {
+            generateAIMatches();
+            document.getElementById('matchingResults').classList.remove('hidden');
+            e.target.innerHTML = 'Start Matching';
+            e.target.disabled = false;
+            showToast('AI matching completed! Found potential teammates.', 'success');
+        }, 2000);
+    }
+});
+
+// Generate AI Matches based on user skills
+function generateAIMatches() {
+    const matchesList = document.getElementById('matchesList');
+    matchesList.innerHTML = '';
+
+    // Sample profiles with diverse skills
+    const matchProfiles = [
+        {
+            name: "Sarah Johnson",
+            title: "UX Designer & Frontend Dev",
+            img: "https://randomuser.me/api/portraits/women/44.jpg",
+            skills: ["React", "UI/UX", "Figma", "Project Management", "AI", "Machine Learning"]
+        },
+        {
+            name: "Michael Chen",
+            title: "ML Engineer & Backend Dev",
+            img: "https://randomuser.me/api/portraits/men/32.jpg",
+            skills: ["Python", "Machine Learning", "Node.js", "Data Science", "Backend", "TensorFlow"]
+        },
+        {
+            name: "Alex Rivera",
+            title: "Full Stack Developer",
+            img: "https://randomuser.me/api/portraits/men/91.jpg",
+            skills: ["JavaScript", "React", "Node.js", "MongoDB", "API Design", "Docker"]
+        },
+        {
+            name: "Taylor Kim",
+            title: "UI Designer & Frontend Dev",
+            img: "https://randomuser.me/api/portraits/women/85.jpg",
+            skills: ["UI/UX", "CSS", "Figma", "Illustrator", "Web Design"]
+        },
+        {
+            name: "Raj Patel",
+            title: "Cloud Engineer & DevOps",
+            img: "https://randomuser.me/api/portraits/men/47.jpg",
+            skills: ["AWS", "Docker", "Kubernetes", "CI/CD", "Python", "Terraform"]
+        },
+        {
+            name: "Emily Carter",
+            title: "Mobile App Developer",
+            img: "https://randomuser.me/api/portraits/women/65.jpg",
+            skills: ["Flutter", "Dart", "Android", "iOS", "Firebase", "UI/UX"]
+        },
+        {
+            name: "Leo Thompson",
+            title: "Cybersecurity Analyst",
+            img: "https://randomuser.me/api/portraits/men/23.jpg",
+            skills: ["Cybersecurity", "Networking", "Python", "Linux", "Pen Testing"]
+        },
+        {
+            name: "Isabella Rossi",
+            title: "AI Researcher & Data Scientist",
+            img: "https://randomuser.me/api/portraits/women/29.jpg",
+            skills: ["AI", "Deep Learning", "NLP", "Python", "R", "Matplotlib"]
+        },
+        {
+            name: "Diego Gonzalez",
+            title: "Game Developer",
+            img: "https://randomuser.me/api/portraits/men/62.jpg",
+            skills: ["Unity", "C#", "Game Design", "3D Modeling", "Animation", "Blender"]
+        },
+        {
+            name: "Amira Hassan",
+            title: "Blockchain Developer",
+            img: "https://randomuser.me/api/portraits/women/59.jpg",
+            skills: ["Solidity", "Ethereum", "Smart Contracts", "Web3.js", "DeFi", "Truffle"]
+        },
+        {
+            name: "Noah Lee",
+            title: "Hardware Engineer",
+            img: "https://randomuser.me/api/portraits/men/36.jpg",
+            skills: ["VHDL", "PCB Design", "FPGA", "Embedded C", "Microcontrollers", "Circuit Simulation"]
+        },
+        {
+            name: "Chloe Martin",
+            title: "Tech Writer & Documentation Specialist",
+            img: "https://randomuser.me/api/portraits/women/73.jpg",
+            skills: ["Markdown", "Technical Writing", "Git", "API Docs", "Content Strategy", "Communication"]
+        },
+        {
+            name: "Lena Verma",
+            title: "Full Stack Engineer & Product Lead",
+            img: "https://randomuser.me/api/portraits/women/25.jpg",
+            skills: ["UI/UX", "HTML", "Node.js", "Flask", "Agile", "Project Management", "Team Leadership"]
+        }
+
+    ];
+
+    // Get current user skills
+    const userSkills = [
+        ...(currentUser.skills?.frontend || []),
+        ...(currentUser.skills?.backend || []),
+        ...(currentUser.skills?.other || [])
+    ].map(skill => skill.toLowerCase());
+
+    // Loop through each profile and calculate match
+    matchProfiles.forEach(profile => {
+        const matchSkills = profile.skills.map(skill => skill.toLowerCase());
+        const overlapCount = matchSkills.filter(skill => userSkills.includes(skill)).length;
+        const totalSkills = matchSkills.length;
+
+        // Match score based on percentage overlap
+        let matchPercent = 60;
+        if (overlapCount > 0) {
+            matchPercent = Math.round((overlapCount / totalSkills) * 100);
+        }
+
+        matchPercent = Math.min(99, Math.max(60, matchPercent)); // Clamp between 60 and 99
+
+        // Build and append HTML for match card
+        const matchHTML = `
+            <div class="skeumorphic p-4 mb-4">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-gray-300 overflow-hidden">
+                        <img src="${profile.img}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="ml-3">
+                        <h4 class="font-bold">${profile.name}</h4>
+                        <p class="text-sm text-gray-600">${profile.title}</p>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">${matchPercent}% Match</span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="flex flex-wrap gap-1 mb-2">
+                        ${profile.skills.map(skill => `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${skill}</span>`).join('')}
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="text-blue-500 text-sm">View Profile</button>
+                        <button class="skeumorphic-button px-3 py-1 text-sm" onclick="inviteToTeam('${profile.name}')">Invite to Team</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        matchesList.innerHTML += matchHTML;
+    });
+}
+
+// Invite a user to join team
+function inviteToTeam(username) {
+    showToast(`Invitation sent to ${username}!`, 'success');
+}
+
+// Calendar functions
+function populateCalendar() {
+    const today = new Date();
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
+    
+    updateCalendar(currentMonth, currentYear);
+    
+    document.getElementById('prevMonth').addEventListener('click', () => {
+        const [month, year] = document.getElementById('currentMonth').textContent.split(' ');
+        const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
+        const yearValue = parseInt(year);
+        
+        if (monthIndex === 0) {
+            updateCalendar(11, yearValue - 1);
+        } else {
+            updateCalendar(monthIndex - 1, yearValue);
+        }
+    });
+    
+    document.getElementById('nextMonth').addEventListener('click', () => {
+        const [month, year] = document.getElementById('currentMonth').textContent.split(' ');
+        const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
+        const yearValue = parseInt(year);
+        
+        if (monthIndex === 11) {
+            updateCalendar(0, yearValue + 1);
+        } else {
+            updateCalendar(monthIndex + 1, yearValue);
+        }
+    });
+    
+    // Update upcoming events list
+    updateUpcomingEvents();
+}
+
+function updateCalendar(month, year) {
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    
+    document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
+    
+    const calendarGrid = document.getElementById('calendarGrid');
+    calendarGrid.innerHTML = '';
+    
+    // Add empty cells for days before the 1st
+    for (let i = 0; i < firstDay; i++) {
+        calendarGrid.innerHTML += `<div class="calendar-day skeumorphic p-2 bg-gray-50 opacity-50"></div>`;
+    }
+    
+    // Get calendar events from hackathons
+    updateCalendarEvents();
+    
+    // Add days of the month
+    for (let i = 1; i <= daysInMonth; i++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+        let eventHTML = '';
+        
+        if (events[dateStr]) {
+            const eventData = events[dateStr];
+            let bgColor = 'bg-blue-100 text-blue-800';
+            if (eventData.type === 'hackathon') bgColor = 'bg-green-100 text-green-800';
+            if (eventData.type === 'meeting') bgColor = 'bg-purple-100 text-purple-800';
+            if (eventData.type === 'deadline') bgColor = 'bg-red-100 text-red-800';
+            
+            eventHTML = `<div class="${bgColor} rounded px-1 py-0.5 text-xs mt-1">${eventData.name}</div>`;
+        }
+        
+        // Check if this is today
+        const isToday = new Date().toDateString() === new Date(year, month, i).toDateString();
+        const todayClass = isToday ? 'bg-blue-50 border-blue-300 border-2' : '';
+        
+        calendarGrid.innerHTML += `
+            <div class="calendar-day skeumorphic p-2 ${todayClass}" data-date="${dateStr}">
+                <div class="font-bold">${i}</div>
+                ${eventHTML}
+            </div>`;
+    }
+    
+    // Make calendar days clickable
+    document.querySelectorAll('.calendar-day[data-date]').forEach(day => {
+        day.addEventListener('click', () => {
+            const dateStr = day.getAttribute('data-date');
+            showEventDetails(dateStr);
+        });
+    });
+}
+
+function updateCalendarEvents() {
+    // Clear existing events
+    for (const key in events) {
+        delete events[key];
+    }
+    
+    // Add hackathons to events
+    hackathons.forEach(hackathon => {
+        const startDate = new Date(hackathon.startDate);
+        const endDate = new Date(hackathon.endDate);
+        
+        // Add event for each day of the hackathon
+        let currentDate = new Date(startDate);
+        while (currentDate <= endDate) {
+            const dateStr = currentDate.toISOString().split('T')[0];
+            events[dateStr] = {
+                name: hackathon.name,
+                type: 'hackathon',
+                data: hackathon
+            };
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        
+        // Add registration deadline if available
+        if (hackathon.registrationDeadline) {
+            const deadlineDate = new Date(hackathon.registrationDeadline);
+            const deadlineDateStr = deadlineDate.toISOString().split('T')[0];
+            
+            events[deadlineDateStr] = {
+                name: `${hackathon.name} Deadline`,
+                type: 'deadline',
+                data: hackathon
+            };
+        }
+    });
+}
+
+function updateUpcomingEvents() {
+    const upcomingEvents = document.getElementById('upcomingEvents');
+    const noEventsMessage = document.getElementById('noEventsMessage');
+    
+    // Filter hackathons to show only upcoming ones
+    const today = new Date();
+    const upcomingHackathons = hackathons.filter(hackathon => {
+        const startDate = new Date(hackathon.startDate);
+        return startDate >= today;
+    }).sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+    
+    if (upcomingHackathons.length === 0) {
+        noEventsMessage.classList.remove('hidden');
+        upcomingEvents.innerHTML = '';
+        upcomingEvents.appendChild(noEventsMessage);
+        return;
+    }
+    
+    noEventsMessage.classList.add('hidden');
+    upcomingEvents.innerHTML = '';
+    
+    upcomingHackathons.slice(0, 5).forEach(hackathon => {
+        const startDate = new Date(hackathon.startDate);
+        const endDate = new Date(hackathon.endDate);
+        
+        const isRegistered = currentUser?.registeredHackathons?.includes(hackathon.id);
+        
+        const eventHTML = `
+            <div class="flex items-start p-3 skeumorphic">
+                <div class="text-center mr-4">
+                    <div class="text-xl font-bold">${startDate.getDate()}</div>
+                    <div class="text-sm">${startDate.toLocaleString('default', { month: 'short' })}</div>
+                </div>
+                <div>
+                    <h4 class="font-bold">${hackathon.name}</h4>
+                    <p class="text-sm">${hackathon.description.substring(0, 60)}...</p>
+                    <div class="mt-1 text-xs text-gray-600">${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}</div>
+                </div>
+                <div class="ml-auto">
+                    ${isRegistered ? 
+                        `<span class="badge px-2 py-1 text-xs text-white rounded-full">Registered</span>` : 
+                        `<button class="skeumorphic-button px-3 py-1 text-sm" onclick="registerForHackathon(${hackathon.id})">Register</button>`
+                    }
+                </div>
+            </div>
+        `;
+        upcomingEvents.innerHTML += eventHTML;
+    });
+}
+
+function showEventDetails(dateStr) {
+    // This would show event details or allow adding new events
+    if (dateStr && events[dateStr]) {
+        const event = events[dateStr];
+        showToast(`Event: ${event.name} (${event.type})`, 'info');
+    } else {
+        const date = new Date(dateStr);
+        const formattedDate = date.toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        showToast(`Selected date: ${formattedDate}`, 'info');
+    }
+}
+
+// Register for Hackathon
+function registerForHackathon(hackathonId) {
+    if (!isLoggedIn) {
+        showToast('Please login to register for hackathons', 'error');
+        setTimeout(() => {
+            showAuthModal();
+        }, 1000);
+        return;
+    }
+    
+    if (!currentUser.registeredHackathons) {
+        currentUser.registeredHackathons = [];
+    }
+    
+    if (!currentUser.registeredHackathons.includes(hackathonId)) {
+        currentUser.registeredHackathons.push(hackathonId);
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        showToast('Successfully registered for the hackathon!', 'success');
+        updateUpcomingEvents();
+    } else {
+        showToast('You are already registered for this hackathon', 'info');
+    }
+}
+
+// Handle skill selection in Create Team form
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('skill-option')) {
+        e.target.classList.toggle('active');
+        if (e.target.classList.contains('active')) {
+            e.target.style.background = 'linear-gradient(to bottom, #4a90e2, #357abd)';
+            e.target.style.color = 'white';
+        } else {
+            e.target.style.background = 'linear-gradient(to bottom, #ffffff, #e6e6e6)';
+            e.target.style.color = 'black';
+        }
+        
+        // Update hidden input with selected skills
+        updateSelectedSkills();
+    }
+});
+
+function updateSelectedSkills() {
+    const selectedSkills = Array.from(document.querySelectorAll('.skill-option.active'))
+        .map(el => el.getAttribute('data-skill'));
+    document.getElementById('selectedSkills').value = selectedSkills.join(',');
+}
+
+// Team filters
+function applyTeamFilters() {
+    const hackathonFilter = document.getElementById('teamHackathonFilter').value;
+    const skillsFilter = document.getElementById('teamSkillsFilter').value;
+    const experienceFilter = document.getElementById('teamExperienceFilter').value;
+    const sizeFilter = document.getElementById('teamSizeFilter').value;
+    
+    let filteredTeams = [...teams];
+    
+    // Apply filters
+    if (hackathonFilter !== 'all') {
+        filteredTeams = filteredTeams.filter(team => team.hackathonId === parseInt(hackathonFilter));
+    }
+    
+    if (skillsFilter !== 'all') {
+        filteredTeams = filteredTeams.filter(team => 
+            team.skills.includes(skillsFilter) || 
+            team.additionalSkills.toLowerCase().includes(skillsFilter.toLowerCase())
+        );
+    }
+    
+    if (experienceFilter !== 'all') {
+        // This would require teams to have an experience level property
+        // For now, we'll skip this filter
+    }
+    
+    if (sizeFilter !== 'all') {
+        filteredTeams = filteredTeams.filter(team => team.size === sizeFilter);
+    }
+    
+    // Display filtered teams
+    displayTeams(filteredTeams);
+}
+
+function displayTeams(teamsToDisplay) {
+    const teamsList = document.getElementById('teamsList');
+    const noTeamsMessage = document.getElementById('noTeamsMessage');
+    
+    if (teamsToDisplay.length === 0) {
+        noTeamsMessage.classList.remove('hidden');
+        teamsList.innerHTML = '';
+        teamsList.appendChild(noTeamsMessage);
+        return;
+    }
+    
+    noTeamsMessage.classList.add('hidden');
+    teamsList.innerHTML = '';
+    
+    teamsToDisplay.forEach(team => {
+        // Find the hackathon
+        const hackathon = hackathons.find(h => h.id === team.hackathonId) || { name: team.hackathonName || 'Unknown Hackathon' };
+        
+        // Create team members avatars
+        let membersHTML = '';
+        if (team.members && team.members.length > 0) {
+            team.members.forEach(memberId => {
+                const member = users.find(u => u.id === memberId);
+                if (member) {
+                    membersHTML += `
+                        <div class="w-8 h-8 rounded-full bg-gray-300 overflow-hidden">
+                            <img src="${member.profilePic || 'https://via.placeholder.com/100x100?text=Member'}" class="w-full h-full object-cover">
+                        </div>
+                    `;
+                }
+            });
+        }
+        
+        // If creator is not in members, add them too
+        if (!team.members?.includes(team.creatorId) && team.creatorId) {
+            const creator = users.find(u => u.id === team.creatorId);
+            if (creator) {
+                membersHTML = `
+                    <div class="w-8 h-8 rounded-full bg-gray-300 overflow-hidden">
+                        <img src="${creator.profilePic || 'https://via.placeholder.com/100x100?text=Creator'}" class="w-full h-full object-cover">
+                    </div>
+                ` + membersHTML;
+            }
+        }
+        
+        // If no members yet, show creator
+        if (!membersHTML && team.creatorId) {
+            const creator = users.find(u => u.id === team.creatorId);
+            if (creator) {
+                membersHTML = `
+                    <div class="w-8 h-8 rounded-full bg-gray-300 overflow-hidden">
+                        <img src="${creator.profilePic || 'https://via.placeholder.com/100x100?text=Creator'}" class="w-full h-full object-cover">
+                    </div>
+                `;
+            }
+        }
+        
+        // Get open spots
+        let openSpots = 0;
+        if (team.size === 'small') openSpots = 3;
+        if (team.size === 'medium') openSpots = 5;
+        if (team.size === 'large') openSpots = 8;
+        
+        // Subtract existing members
+        const memberCount = (team.members?.length || 0) + 1; // +1 for creator
+        openSpots = Math.max(0, openSpots - memberCount);
+        
+        // Create skills HTML
+        const skillsHTML = team.skills.map(skill => 
+            `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${skill}</span>`
+        ).join('');
+        
+        // Add additional skills if any
+        const additionalSkillsHTML = team.additionalSkills ? team.additionalSkills.split(',').map(skill => 
+            `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${skill.trim()}</span>`
+        ).join('') : '';
+        
+        const teamHTML = `
+            <div class="skeumorphic p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="font-bold text-lg">${team.name}</h4>
+                        <p class="text-sm text-gray-600">For: ${hackathon.name}</p>
+                    </div>
+                    <span class="badge px-2 py-1 rounded-full text-xs text-white">Looking for ${openSpots}</span>
+                </div>
+                
+                <p class="text-sm mt-3">${team.description}</p>
+                
+                <div class="mt-3">
+                    <h5 class="text-sm font-medium">Team Members:</h5>
+                    <div class="flex mt-1 space-x-1">
+                        ${membersHTML || '<p class="text-sm text-gray-500">No members yet</p>'}
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <h5 class="text-sm font-medium">Skills Needed:</h5>
+                    <div class="flex flex-wrap gap-1 mt-1">
+                        ${skillsHTML}
+                        ${additionalSkillsHTML}
+                    </div>
+                </div>
+                
+                <div class="flex justify-end mt-3">
+                    <button class="skeumorphic-button px-3 py-1" onclick="requestToJoinTeam(${team.id})">Request to Join</button>
+                </div>
+            </div>
+        `;
+        teamsList.innerHTML += teamHTML;
+    });
+}
+
+// Request to join team
+function requestToJoinTeam(teamId) {
+    if (!isLoggedIn) {
+        showToast('Please login to request joining a team', 'error');
+        setTimeout(() => {
+            showAuthModal();
+        }, 1000);
+        return;
+    }
+    
+    const team = teams.find(t => t.id === teamId);
+    if (!team) {
+        showToast('Team not found', 'error');
+        return;
+    }
+    
+    // Open Google Form in new window for now (in a real app, you'd handle this differently)
+    const googleFormUrl = `https://docs.google.com/forms/d/e/1FAIpQLScQJYFcN_4KHtZrzPUEw4VjRXVGCN4_eSdEZmOpbN6vMGZBtQ/viewform?usp=pp_url&entry.837822901=${encodeURIComponent(currentUser.name)}&entry.1671981064=${encodeURIComponent(currentUser.email)}&entry.1428798848=${encodeURIComponent(team.name)}`;
+    window.open(googleFormUrl, '_blank');
+    
+    showToast('Redirecting to team application form...', 'success');
+}
+
+// Populate hackathon dropdowns
+function populateHackathonDropdowns() {
+    const teamHackathon = document.getElementById('teamHackathon');
+    const teamHackathonFilter = document.getElementById('teamHackathonFilter');
+    
+    // Clear existing options except the first one
+    teamHackathon.innerHTML = '<option value="">Select a hackathon</option>';
+    teamHackathonFilter.innerHTML = '<option value="all">All Hackathons</option>';
+    
+    // Add each hackathon as an option
+    hackathons.forEach(hackathon => {
+        teamHackathon.innerHTML += `<option value="${hackathon.id}">${hackathon.name}</option>`;
+        teamHackathonFilter.innerHTML += `<option value="${hackathon.id}">${hackathon.name}</option>`;
+    });
+    
+    // Add "Other" option
+    teamHackathon.innerHTML += '<option value="other">Other (specify below)</option>';
+    
+    // Handle "Other" option change
+    teamHackathon.addEventListener('change', function() {
+        const otherHackathonField = document.getElementById('otherHackathonField');
+        if (this.value === 'other') {
+            otherHackathonField.classList.remove('hidden');
+        } else {
+            otherHackathonField.classList.add('hidden');
+        }
+    });
+}
+
+// Load teams
+function loadTeams() {
+    displayTeams(teams);
+}
+
+// Update dashboard hackathons
+function updateDashboardHackathons() {
+    const upcomingHackathonsEl = document.getElementById('upcomingHackathons');
+    const recommendedHackathonsEl = document.getElementById('recommendedHackathons');
+    const ongoingHackathonsEl = document.getElementById('ongoingHackathons');
+    
+    // Clear existing content
+    upcomingHackathonsEl.innerHTML = '';
+    recommendedHackathonsEl.innerHTML = '';
+    ongoingHackathonsEl.innerHTML = '<div class="text-center py-8"><i class="bi bi-calendar-x text-4xl text-gray-400"></i><p class="mt-4 text-gray-500">You don\'t have any ongoing hackathons yet.</p></div>';
+    
+    if (hackathons.length === 0) {
+        upcomingHackathonsEl.innerHTML = '<div class="text-center py-8"><i class="bi bi-calendar-x text-4xl text-gray-400"></i><p class="mt-4 text-gray-500">No upcoming hackathons available.</p></div>';
+        recommendedHackathonsEl.innerHTML = '<div class="text-center py-8"><i class="bi bi-calendar-x text-4xl text-gray-400"></i><p class="mt-4 text-gray-500">No recommended hackathons available.</p></div>';
+        return;
+    }
+    
+    const today = new Date();
+    
+    // Upcoming hackathons (start date in the future)
+    const upcoming = hackathons.filter(h => new Date(h.startDate) > today)
+        .sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+    
+    // Ongoing hackathons (current date between start and end dates)
+    const ongoing = hackathons.filter(h => {
+        const startDate = new Date(h.startDate);
+        const endDate = new Date(h.endDate);
+        return today >= startDate && today <= endDate;
+    });
+    
+    // Recommended hackathons (based on user skills if logged in)
+    let recommended = [];
+    if (isLoggedIn && currentUser.skills) {
+        const userSkills = [
+            ...(currentUser.skills.frontend || []),
+            ...(currentUser.skills.backend || []),
+            ...(currentUser.skills.other || [])
+        ].map(s => s.toLowerCase());
+        
+        recommended = hackathons.filter(h => {
+            // Check if any hackathon theme matches user skills
+            const themes = h.themes ? h.themes.split(',').map(t => t.trim().toLowerCase()) : [];
+            return themes.some(theme => userSkills.some(skill => theme.includes(skill) || skill.includes(theme)));
+        });
+    } else {
+        // If not logged in or no skills, just show a few random upcoming ones
+        recommended = [...upcoming].sort(() => 0.5 - Math.random()).slice(0, 2);
+    }
+    
+    // Display upcoming hackathons
+    if (upcoming.length === 0) {
+        upcomingHackathonsEl.innerHTML = '<div class="text-center py-8"><i class="bi bi-calendar-x text-4xl text-gray-400"></i><p class="mt-4 text-gray-500">No upcoming hackathons available.</p></div>';
+    } else {
+        upcoming.slice(0, 3).forEach(hackathon => {
+            const isRegistered = currentUser?.registeredHackathons?.includes(hackathon.id);
+            upcomingHackathonsEl.innerHTML += `
+                <div class="skeumorphic p-4 hackathon-item">
+                    ${hackathon.featured ? '<span class="badge px-2 py-1 text-xs text-white rounded-full">Featured</span>' : ''}
+                    <h4 class="font-bold text-lg mt-2">${hackathon.name}</h4>
+                    <div class="flex items-center mt-1">
+                        <i class="bi bi-calendar-event mr-2 text-blue-500"></i>
+                        <p class="text-sm text-gray-600">${new Date(hackathon.startDate).toLocaleDateString()} - ${new Date(hackathon.endDate).toLocaleDateString()}</p>
+                    </div>
+                    <div class="flex items-center mt-1">
+                        <i class="bi bi-geo-alt mr-2 text-blue-500"></i>
+                        <p class="text-sm text-gray-600">${hackathon.locationType === 'virtual' ? 'Virtual Event' : hackathon.location || 'Hybrid'}</p>
+                    </div>
+                    <p class="text-sm mt-2">${hackathon.description.substring(0, 100)}...</p>
+                    ${isRegistered ? 
+                        '<span class="badge px-2 py-1 mt-3 text-xs text-white rounded-full inline-block">Registered</span>' : 
+                        `<button class="skeumorphic-button px-3 py-1 mt-3" onclick="registerForHackathon(${hackathon.id})">Register</button>`
+                    }
+                </div>
+            `;
+        });
+    }
+    
+    // Display recommended hackathons
+    if (recommended.length === 0) {
+        recommendedHackathonsEl.innerHTML = '<div class="text-center py-8"><i class="bi bi-calendar-x text-4xl text-gray-400"></i><p class="mt-4 text-gray-500">No recommended hackathons available.</p></div>';
+    } else {
+        recommended.slice(0, 2).forEach(hackathon => {
+            const themes = hackathon.themes ? hackathon.themes.split(',').map(t => 
+                `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${t.trim()}</span>`
+            ).join('') : '';
+            
+            recommendedHackathonsEl.innerHTML += `
+                <div class="skeumorphic p-4 hackathon-item">
+                    <span class="badge px-2 py-1 text-xs text-white rounded-full">Matches Your Skills</span>
+                    <h4 class="font-bold text-lg mt-2">${hackathon.name}</h4>
+                    <div class="flex items-center mt-1">
+                        <i class="bi bi-calendar-event mr-2 text-blue-500"></i>
+                        <p class="text-sm text-gray-600">${new Date(hackathon.startDate).toLocaleDateString()} - ${new Date(hackathon.endDate).toLocaleDateString()}</p>
+                    </div>
+                    <p class="text-sm mt-2">${hackathon.description.substring(0, 80)}...</p>
+                    <div class="flex mt-2 flex-wrap gap-1">
+                        ${themes}
+                    </div>
+                    <button class="skeumorphic-button px-3 py-1 mt-3" onclick="registerForHackathon(${hackathon.id})">Learn More</button>
+                </div>
+            `;
+        });
+    }
+    
+    // Display ongoing hackathons if any
+    if (ongoing.length > 0) {
+        ongoingHackathonsEl.innerHTML = '';
+        ongoing.forEach(hackathon => {
+            ongoingHackathonsEl.innerHTML += `
+                <div class="skeumorphic p-4 hackathon-item mb-4">
+                    <h4 class="font-bold text-lg">${hackathon.name}</h4>
+                    <div class="flex items-center mt-1">
+                        <i class="bi bi-calendar-event mr-2 text-blue-500"></i>
+                        <p class="text-sm text-gray-600">${new Date(hackathon.startDate).toLocaleDateString()} - ${new Date(hackathon.endDate).toLocaleDateString()}</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-3">
+                        <span class="text-green-600 font-medium"><i class="bi bi-play-circle mr-1"></i> In Progress</span>
+                        <button class="skeumorphic-button px-3 py-1" onclick="showTeamTab('find')">Find Team</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+}
+
+// Update profile UI from user data
+function updateProfileUI() {
+    if (!currentUser) return;
+    
+    // Basic info
+    document.getElementById('userName').textContent = currentUser.name || '-';
+    document.getElementById('userBio').textContent = currentUser.bio || '-';
+    document.getElementById('userEmail').textContent = currentUser.email || '-';
+    document.getElementById('userWebsite').textContent = currentUser.website || '-';
+    document.getElementById('userGithub').textContent = currentUser.github || '-';
+    document.getElementById('userLocation').textContent = currentUser.location || '-';
+    document.getElementById('userAvailability').textContent = currentUser.availability || '-';
+    
+    // Profile image
+    if (currentUser.profilePic) {
+        document.getElementById('profileImage').src = currentUser.profilePic;
+    }
+    
+    // Experience bar
+    const expLevel = currentUser.experience || 'beginner';
+    let expWidth = '30%';
+    if (expLevel === 'intermediate') expWidth = '60%';
+    if (expLevel === 'advanced') expWidth = '90%';
+    document.getElementById('experienceBar').style.width = expWidth;
+    
+    // Skills
+    updateProfileSkills();
+    
+    // Projects
+    updateProfileProjects();
+    
+    // Achievements
+    updateProfileAchievements();
+    
+    // Rank & badges
+    calculateUserRank();
+}
+
+// Update profile skills section
+function updateProfileSkills() {
+    const frontendSkillsEl = document.getElementById('frontendSkills');
+    const backendSkillsEl = document.getElementById('backendSkills');
+    const otherSkillsEl = document.getElementById('otherSkills');
+    
+    frontendSkillsEl.innerHTML = '';
+    backendSkillsEl.innerHTML = '';
+    otherSkillsEl.innerHTML = '';
+    
+    if (currentUser.skills) {
+        // Frontend skills
+        if (currentUser.skills.frontend && currentUser.skills.frontend.length > 0) {
+            frontendSkillsEl.innerHTML = currentUser.skills.frontend.map(skill => 
+                `<span class="skill-badge px-3 py-1 rounded-full text-sm">${skill}</span>`
+            ).join('');
+        } else {
+            frontendSkillsEl.innerHTML = '<p class="text-sm text-gray-500">No frontend skills added yet</p>';
+        }
+        
+        // Backend skills
+        if (currentUser.skills.backend && currentUser.skills.backend.length > 0) {
+            backendSkillsEl.innerHTML = currentUser.skills.backend.map(skill => 
+                `<span class="skill-badge px-3 py-1 rounded-full text-sm">${skill}</span>`
+            ).join('');
+        } else {
+            backendSkillsEl.innerHTML = '<p class="text-sm text-gray-500">No backend skills added yet</p>';
+        }
+        
+        // Other skills
+        if (currentUser.skills.other && currentUser.skills.other.length > 0) {
+            otherSkillsEl.innerHTML = currentUser.skills.other.map(skill => 
+                `<span class="skill-badge px-3 py-1 rounded-full text-sm">${skill}</span>`
+            ).join('');
+        } else {
+            otherSkillsEl.innerHTML = '<p class="text-sm text-gray-500">No other skills added yet</p>';
+        }
+    } else {
+        frontendSkillsEl.innerHTML = '<p class="text-sm text-gray-500">No frontend skills added yet</p>';
+        backendSkillsEl.innerHTML = '<p class="text-sm text-gray-500">No backend skills added yet</p>';
+        otherSkillsEl.innerHTML = '<p class="text-sm text-gray-500">No other skills added yet</p>';
+    }
+}
+
+// Update profile projects section
+function updateProfileProjects() {
+    const projectsListEl = document.getElementById('projectsList');
+    
+    if (!currentUser.projects || currentUser.projects.length === 0) {
+        projectsListEl.innerHTML = '<p class="text-sm text-gray-500">No projects added yet</p>';
+        return;
+    }
+    
+    projectsListEl.innerHTML = '';
+    
+    currentUser.projects.forEach(project => {
+        const techHTML = project.technologies ? project.technologies.split(',').map(tech => 
+            `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${tech.trim()}</span>`
+        ).join('') : '';
+        
+        const projectHTML = `
+            <div class="skeumorphic p-4 project-card">
+                <h4 class="font-bold">${project.name}</h4>
+                ${project.event ? `<p class="text-sm text-gray-600 mt-1">${project.achievement ? `${project.achievement} at ` : ''}${project.event}</p>` : ''}
+                <p class="text-sm mt-2">${project.description}</p>
+                ${techHTML ? `<div class="flex mt-2 flex-wrap gap-1">${techHTML}</div>` : ''}
+                ${project.link ? `
+                    <div class="flex justify-end mt-2">
+                        <a href="${project.link}" target="_blank" class="text-blue-500 text-sm flex items-center">
+                            <i class="bi bi-link-45deg mr-1"></i> View Project
+                        </a>
+                    </div>
+                ` : ''}
+            </div>
+        `;
+        
+        projectsListEl.innerHTML += projectHTML;
+    });
+}
+
+// Update profile achievements section
+function updateProfileAchievements() {
+    const achievementsListEl = document.getElementById('achievementsList');
+    
+    if (!currentUser.achievements || currentUser.achievements.length === 0) {
+        achievementsListEl.innerHTML = '<p class="text-sm text-gray-500">No achievements added yet</p>';
+        return;
+    }
+    
+    achievementsListEl.innerHTML = '';
+    
+    currentUser.achievements.forEach(achievement => {
+        const achievementHTML = `
+            <div class="skeumorphic p-4 text-center">
+                <div class="w-16 h-16 rounded-full bg-yellow-100 flex items-center justify-center mx-auto">
+                    <i class="bi bi-trophy text-yellow-500 text-2xl"></i>
+                </div>
+                <h4 class="font-bold mt-3">${achievement.title}</h4>
+                <p class="text-sm mt-1">${achievement.event}</p>
+                <p class="text-xs text-gray-500 mt-1">${achievement.category}</p>
+            </div>
+        `;
+        
+        achievementsListEl.innerHTML += achievementHTML;
+    });
+}
+
+// Calculate user rank based on projects, skills, and achievements
+function calculateUserRank() {
+    if (!currentUser) return;
+    
+    let score = 0;
+    
+    // Points for experience level
+    if (currentUser.experience === 'beginner') score += 10;
+    if (currentUser.experience === 'intermediate') score += 20;
+    if (currentUser.experience === 'advanced') score += 30;
+    
+    // Points for skills
+    if (currentUser.skills) {
+        const totalSkills = 
+            (currentUser.skills.frontend?.length || 0) + 
+            (currentUser.skills.backend?.length || 0) + 
+            (currentUser.skills.other?.length || 0);
+        
+        score += totalSkills * 5;
+    }
+    
+    // Points for projects
+    if (currentUser.projects) {
+        score += currentUser.projects.length * 10;
+        
+        // Bonus for projects with achievements
+        const achievementProjects = currentUser.projects.filter(p => p.achievement);
+        score += achievementProjects.length * 15;
+    }
+    
+    // Points for achievements
+    if (currentUser.achievements) {
+        score += currentUser.achievements.length * 20;
+    }
+    
+    // Calculate rank (1-10)
+    let rank = 1;
+    if (score > 30) rank = 2;
+    if (score > 60) rank = 3;
+    if (score > 90) rank = 4;
+    if (score > 120) rank = 5;
+    if (score > 150) rank = 6;
+    if (score > 180) rank = 7;
+    if (score > 210) rank = 8;
+    if (score > 240) rank = 9;
+    if (score > 270) rank = 10;
+    
+    // Update UI
+    document.getElementById('userRank').textContent = rank;
+    
+    // Update badges based on rank and achievements
+    updateUserBadges(rank, score);
+    
+    return rank;
+}
+
+// Update user badges
+function updateUserBadges(rank, score) {
+    const userBadges = document.getElementById('userBadges');
+    userBadges.innerHTML = '';
+    
+    // Add badges based on rank
+    if (rank >= 5) {
+        userBadges.innerHTML += '<span class="badge px-3 py-1 rounded-full text-sm text-white">Tech Enthusiast</span>';
+    }
+    
+    if (rank >= 7) {
+        userBadges.innerHTML += '<span class="badge px-3 py-1 rounded-full text-sm text-white">Code Maven</span>';
+    }
+    
+    if (rank >= 9) {
+        userBadges.innerHTML += '<span class="badge px-3 py-1 rounded-full text-sm text-white">Hackathon Hero</span>';
+    }
+    
+    // Add badges based on achievements
+    if (currentUser.achievements) {
+        const hasWon = currentUser.achievements.some(a => 
+            a.title.includes('1st') || a.title.includes('First') || a.title.includes('Winner')
+        );
+        
+        if (hasWon) {
+            userBadges.innerHTML += '<span class="badge px-3 py-1 rounded-full text-sm text-white">Champion</span>';
+        }
+        
+        if (currentUser.achievements.some(a => a.category.includes('UI') || a.category.includes('UX') || a.category.includes('Design'))) {
+            userBadges.innerHTML += '<span class="badge px-3 py-1 rounded-full text-sm text-white">Best UI/UX</span>';
+        }
+        
+        if (currentUser.achievements.some(a => a.category.includes('Innovative') || a.category.includes('Innovation'))) {
+            userBadges.innerHTML += '<span class="badge px-3 py-1 rounded-full text-sm text-white">Innovator</span>';
+        }
+    }
+    
+    // Add badges based on skills
+    if (currentUser.skills) {
+        const hasManyFrontend = (currentUser.skills.frontend?.length || 0) >= 5;
+        const hasManyBackend = (currentUser.skills.backend?.length || 0) >= 5;
+        
+        if (hasManyFrontend && hasManyBackend) {
+            userBadges.innerHTML += '<span class="badge px-3 py-1 rounded-full text-sm text-white">Full Stack Dev</span>';
+        } else if (hasManyFrontend) {
+            userBadges.innerHTML += '<span class="badge px-3 py-1 rounded-full text-sm text-white">Frontend Wizard</span>';
+        } else if (hasManyBackend) {
+            userBadges.innerHTML += '<span class="badge px-3 py-1 rounded-full text-sm text-white">Backend Guru</span>';
+        }
+    }
+    
+    // If no badges were added, show none
+    if (userBadges.innerHTML === '') {
+        userBadges.innerHTML = '<p class="text-sm text-gray-500">No badges earned yet</p>';
+    }
+}
+
+// Form submissions
+document.addEventListener('DOMContentLoaded', function() {
+    // Auth Form Submission
+    document.getElementById('authForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    if (!emailInput.value || !passwordInput.value) {
+        showToast('Please fill in all required fields', 'error');
+        return;
+    }
+
+    if (isLogin) {
+        // Find user by email
+        const existingUser = users.find(user => user.email === emailInput.value);
+
+        if (!existingUser) {
+            showToast('No account found with this email', 'error');
+            return;
+        }
+
+        // Check password match
+        if (existingUser.password !== passwordInput.value) {
+            showToast('Incorrect password', 'error');
+            return;
+        }
+
+        // Login successful
+        loginUser(existingUser);
+        showToast('Login successful!', 'success');
+    } else {
+        // Signup logic
+        const fullNameInput = document.getElementById('fullName');
+
+        if (!fullNameInput?.value) {
+            showToast('Please fill in all required fields', 'error');
+            return;
+        }
+
+        // Check if email is already registered
+        if (users.some(user => user.email === emailInput.value)) {
+            showToast('Email already registered', 'error');
+            return;
+        }
+
+        // Create new user with empty profile
+        const newUser = {
+            id: Date.now(),
+            name: fullNameInput.value,
+            email: emailInput.value,
+            password: passwordInput.value,
+            username: document.getElementById('username')?.value || '',
+            phone: document.getElementById('phone')?.value || '',
+            registeredHackathons: []
+        };
+
+        users.push(newUser);
+        loginUser(newUser);
+        showToast('Account created successfully!', 'success');
+    }
+
+    closeAuthModal();
+});
+
+    
+    // Organizer Auth Form Submission
+    document.getElementById('organizerAuthForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const emailInput = document.getElementById('orgEmail');
+    const passwordInput = document.getElementById('orgPassword');
+
+    if (!emailInput.value || !passwordInput.value) {
+        showToast('Please fill in all required fields', 'error');
+        return;
+    }
+
+
+    if (isOrganizerLogin) {
+        // Login logic
+        const existingOrganizer = organizers.find(org => org.email === emailInput.value);
+
+        if (!existingOrganizer) {
+            showToast('No account found with this email', 'error');
+            return;
+        }
+
+        if (existingOrganizer.password !== passwordInput.value) {
+            showToast('Incorrect password', 'error');
+            return;
+        }
+
+        loginOrganizer(existingOrganizer);
+        showToast('Organizer login successful!', 'success');
+    } else {
+        // Signup logic
+        const orgNameInput = document.getElementById('orgName');
+
+        if (!orgNameInput?.value) {
+            showToast('Please fill in all required fields', 'error');
+            return;
+        }
+
+        // Check if email already exists
+        if (organizers.some(org => org.email === emailInput.value)) {
+            showToast('Email already registered', 'error');
+            return;
+        }
+
+        // Create new organizer
+        const newOrganizer = {
+            id: Date.now(),
+            name: orgNameInput.value,
+            email: emailInput.value,
+            password: passwordInput.value,
+            contact: document.getElementById('orgContact')?.value || '',
+            phone: document.getElementById('orgPhone')?.value || '',
+            website: document.getElementById('orgWebsite')?.value || ''
+        };
+
+        organizers.push(newOrganizer);
+        loginOrganizer(newOrganizer);
+        showToast('Organizer account created successfully!', 'success');
+    }
+
+    closeOrganizerAuthModal();
+});
+
+    
+    // Create Team Form Submission
+    document.getElementById('createTeamForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!isLoggedIn) {
+            showToast('Please login to create a team', 'error');
+            setTimeout(() => {
+                showAuthModal();
+            }, 1000);
+            return;
+        }
+        
+        const teamName = document.getElementById('teamName').value;
+        const teamHackathon = document.getElementById('teamHackathon').value;
+        const teamDescription = document.getElementById('teamDescription').value;
+        const selectedSkills = document.getElementById('selectedSkills').value.split(',').filter(Boolean);
+        const additionalSkills = document.getElementById('additionalSkills').value;
+        const teamSize = document.getElementById('teamSize').value;
+        
+        // Handle "other" hackathon option
+        let hackathonId = parseInt(teamHackathon);
+        let hackathonName = '';
+        
+        if (teamHackathon === 'other') {
+            hackathonName = document.getElementById('otherHackathon').value;
+            if (!hackathonName) {
+                showToast('Please provide a hackathon name', 'error');
+                return;
+            }
+        } else if (teamHackathon) {
+            const hackathon = hackathons.find(h => h.id === hackathonId);
+            if (hackathon) {
+                hackathonName = hackathon.name;
+            }
+        } else {
+            showToast('Please select a hackathon', 'error');
+            return;
+        }
+        
+        // Create the team
+        const newTeam = {
+            id: Date.now(),
+            name: teamName,
+            hackathonId: hackathonId || null,
+            hackathonName: hackathonName,
+            description: teamDescription,
+            skills: selectedSkills,
+            additionalSkills: additionalSkills,
+            size: teamSize,
+            creatorId: currentUser.id,
+            members: [] // Initially empty, creator is not included in members array
+        };
+        
+        teams.push(newTeam);
+        saveTeamToLocalStorage();
+        
+        showToast('Team created successfully!', 'success');
+        
+        // Reset form
+        document.getElementById('createTeamForm').reset();
+        document.getElementById('otherHackathonField').classList.add('hidden');
+        document.querySelectorAll('.skill-option.active').forEach(el => {
+            el.classList.remove('active');
+            el.style.background = 'linear-gradient(to bottom, #ffffff, #e6e6e6)';
+            el.style.color = 'black';
+        });
+        document.getElementById('selectedSkills').value = '';
+        
+        // Show the teams list
+        showTeamTab('find');
+        loadTeams();
+    });
+    
+    // Add Project Form Submission
+    document.getElementById('addProjectForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!isLoggedIn) {
+            showToast('Please login to add projects', 'error');
+            return;
+        }
+        
+        const projectName = document.getElementById('projectName').value;
+        const projectEvent = document.getElementById('projectEvent').value;
+        const projectDescription = document.getElementById('projectDescription').value;
+        const projectTech = document.getElementById('projectTech').value;
+        const projectLink = document.getElementById('projectLink').value;
+        const projectAchievement = document.getElementById('projectAchievement').value;
+        
+        // Create new project
+        const newProject = {
+            id: Date.now(),
+            name: projectName,
+            event: projectEvent,
+            description: projectDescription,
+            technologies: projectTech,
+            link: projectLink,
+            achievement: projectAchievement
+        };
+        
+        // Add to user's projects
+        if (!currentUser.projects) {
+            currentUser.projects = [];
+        }
+        
+        currentUser.projects.push(newProject);
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        
+        // Update UI
+        updateProfileProjects();
+        calculateUserRank();
+        
+        showToast('Project added to your profile!', 'success');
+        closeProjectModal();
+        
+        // Reset form
+        document.getElementById('addProjectForm').reset();
+    });
+    
+    // Edit Profile Form Submission
+    document.getElementById('editProfileForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!isLoggedIn || !currentUser) {
+            showToast('Please login to edit your profile', 'error');
+            return;
+        }
+        
+        // Update user object with form values
+        currentUser.name = document.getElementById('editFullName').value;
+        currentUser.bio = document.getElementById('editBio').value;
+        currentUser.email = document.getElementById('editEmail').value;
+        currentUser.website = document.getElementById('editWebsite').value;
+        currentUser.github = document.getElementById('editGithub').value;
+        currentUser.location = document.getElementById('editLocation').value;
+        currentUser.availability = document.getElementById('editAvailability').value;
+        currentUser.experience = document.getElementById('editExperience').value;
+        
+        // Parse skills from comma-separated inputs
+        if (!currentUser.skills) {
+            currentUser.skills = {};
+        }
+        
+        currentUser.skills.frontend = document.getElementById('editFrontendSkills').value
+            .split(',')
+            .filter(Boolean)
+            .map(skill => skill.trim());
+            
+        currentUser.skills.backend = document.getElementById('editBackendSkills').value
+            .split(',')
+            .filter(Boolean)
+            .map(skill => skill.trim());
+            
+        currentUser.skills.other = document.getElementById('editOtherSkills').value
+            .split(',')
+            .filter(Boolean)
+            .map(skill => skill.trim());
+        
+        // Save to localStorage
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        
+        // Update UI
+        updateProfileUI();
+        
+        showToast('Profile updated successfully!', 'success');
+        closeEditProfileModal();
+    });
+    
+    // Add Hackathon Form Submission
+    document.getElementById('addHackathonForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!isOrganizerLoggedIn) {
+            showToast('Please login as an organizer to add hackathons', 'error');
+            return;
+        }
+        
+        const hackathonName = document.getElementById('hackathonName').value;
+        const startDate = document.getElementById('hackathonStart').value;
+        const endDate = document.getElementById('hackathonEnd').value;
+        const locationType = document.getElementById('hackathonLocationType').value;
+        const location = document.getElementById('hackathonLocation').value;
+        const description = document.getElementById('hackathonDescription').value;
+        const themes = document.getElementById('hackathonThemes').value;
+        const prizes = document.getElementById('hackathonPrizes').value;
+        const registrationDeadline = document.getElementById('hackathonDeadline').value;
+        const website = document.getElementById('hackathonWebsite').value;
+        const contactEmail = document.getElementById('hackathonEmail').value;
+        
+        // Create new hackathon
+        const newHackathon = {
+            id: Date.now(),
+            name: hackathonName,
+            startDate: startDate,
+            endDate: endDate,
+            locationType: locationType,
+            location: location,
+            description: description,
+            themes: themes,
+            prizes: prizes,
+            registrationDeadline: registrationDeadline,
+            website: website,
+            contactEmail: contactEmail,
+            organizerId: currentOrganizer.id,
+            featured: false // Not featured by default
+        };
+        
+        hackathons.push(newHackathon);
+        saveHackathonsToLocalStorage();
+        
+        // Update UI components that display hackathons
+        populateHackathonDropdowns();
+        updateCalendarEvents();
+        updateDashboardHackathons();
+        updateUpcomingEvents();
+        
+        showToast('Hackathon posted successfully!', 'success');
+        closeHackathonModal();
+        
+        // Reset form
+        document.getElementById('addHackathonForm').reset();
+    });
+    
+    // Search teams functionality
+    document.getElementById('teamSearchInput').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        
+        if (searchTerm.length < 2) {
+            // If search term is too short, just display all teams
+            displayTeams(teams);
+            return;
+        }
+        
+        const filteredTeams = teams.filter(team => 
+            team.name.toLowerCase().includes(searchTerm) ||
+            team.description.toLowerCase().includes(searchTerm) ||
+            team.skills.some(skill => skill.toLowerCase().includes(searchTerm)) ||
+            team.additionalSkills.toLowerCase().includes(searchTerm)
+        );
+        
+        displayTeams(filteredTeams);
+    });
+    
+    // Initialize the application
+    initializeApp();
+});
+
+// User login function
+function loginUser(user) {
+    isLoggedIn = true;
+    currentUser = user;
+    
+    // Save to localStorage
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    
+    // Update UI
+    document.getElementById('authButton').textContent = 'Logout';
+    document.getElementById('authButton').onclick = logoutUser;
+    
+    // Update profile UI
+    updateProfileUI();
+    
+    // Show profile content if on profile page
+    if (document.getElementById('profile').classList.contains('active')) {
+        document.getElementById('profileLoginMessage').classList.add('hidden');
+        document.getElementById('profileContent').classList.remove('hidden');
+    }
+    
+    // Update dashboard
+    document.getElementById('dashboardMessage').textContent = `Welcome back, ${user.name}! Here's your hackathon headquarters.`;
+    updateDashboardHackathons();
+    
+    // Check if organizer is also logged in, if not show organizer button
+    if (!isOrganizerLoggedIn) {
+        document.getElementById('organizerAuthButton').classList.remove('hidden');
+    }
+}
+
+// Organizer login function
+function loginOrganizer(organizer) {
+    isOrganizerLoggedIn = true;
+    currentOrganizer = organizer;
+    
+    // Save to localStorage
+    localStorage.setItem('isOrganizerLoggedIn', 'true');
+    localStorage.setItem('currentOrganizer', JSON.stringify(organizer));
+    
+    // Update UI
+    document.getElementById('organizerAuthButton').textContent = 'Post Hackathon';
+    document.getElementById('organizerAuthButton').onclick = showAddHackathonModal;
+    
+    // Show toast with option to add a hackathon
+    showToast(`Welcome, ${organizer.name}! You can now post hackathons.`, 'success');
+}
+
+// User logout function
+function logoutUser() {
+    isLoggedIn = false;
+    currentUser = null;
+    
+    // Clear localStorage
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('currentUser');
+    
+    // Update UI
+    document.getElementById('authButton').textContent = 'Login';
+    document.getElementById('authButton').onclick = showAuthModal;
+    
+    // Hide profile content if on profile page
+    if (document.getElementById('profile').classList.contains('active')) {
+        document.getElementById('profileLoginMessage').classList.remove('hidden');
+        document.getElementById('profileContent').classList.add('hidden');
+    }
+    
+    // Reset dashboard message
+    document.getElementById('dashboardMessage').textContent = 'Welcome to your personal hackathon headquarters. Track your events, teams, and progress.';
+    
+    showToast('Logged out successfully', 'success');
+}
+
+// Organizer logout function
+function logoutOrganizer() {
+    isOrganizerLoggedIn = false;
+    currentOrganizer = null;
+    
+    // Clear localStorage
+    localStorage.removeItem('isOrganizerLoggedIn');
+    localStorage.removeItem('currentOrganizer');
+    
+    // Update UI
+    document.getElementById('organizerAuthButton').textContent = 'Organizer';
+    document.getElementById('organizerAuthButton').onclick = showOrganizerAuthModal;
+    
+    showToast('Organizer logged out successfully', 'success');
+}
+
+// Load teams from localStorage
+function loadTeamsFromLocalStorage() {
+    const storedTeams = localStorage.getItem('teams');
+    if (storedTeams) {
+        teams.length = 0; // Clear existing data
+        teams.push(...JSON.parse(storedTeams));
+    }
+}
+
+// Save teams to localStorage
+function saveTeamToLocalStorage() {
+    localStorage.setItem('teams', JSON.stringify(teams));
+}
+
+// Load hackathons from localStorage
+function loadHackathonsFromLocalStorage() {
+    const storedHackathons = localStorage.getItem('hackathons');
+    if (storedHackathons) {
+        hackathons.length = 0; // Clear existing data
+        hackathons.push(...JSON.parse(storedHackathons));
+    } else {
+        // Add sample hackathons if none exist
+        addSampleHackathonsData();
+    }
+}
+
+// Save hackathons to localStorage
+function saveHackathonsToLocalStorage() {
+    localStorage.setItem('hackathons', JSON.stringify(hackathons));
+}
+
+// Add sample hackathon data for demonstration
+function addSampleHackathonsData() {
+    const today = new Date();
+    const nextMonth = new Date(today);
+    nextMonth.setMonth(today.getMonth() + 1);
+    
+    const sampleHackathons = [
+        {
+            id: 1,
+            name: "Global Tech Hack 2023",
+            startDate: new Date(today.getFullYear(), today.getMonth() + 1, 15).toISOString().split('T')[0],
+            endDate: new Date(today.getFullYear(), today.getMonth() + 1, 17).toISOString().split('T')[0],
+            locationType: "virtual",
+            description: "Build innovative solutions in AI, blockchain, or climate tech. Join developers from around the world in this 3-day virtual hackathon.",
+            themes: "AI, Blockchain, Climate Tech",
+            prizes: "$10,000 in cash prizes and cloud credits",
+            registrationDeadline: new Date(today.getFullYear(), today.getMonth() + 1, 10).toISOString().split('T')[0],
+            featured: true
+        },
+        {
+            id: 2,
+            name: "AI Innovation Challenge",
+            startDate: new Date(today.getFullYear(), today.getMonth() + 1, 20).toISOString().split('T')[0],
+            endDate: new Date(today.getFullYear(), today.getMonth() + 1, 22).toISOString().split('T')[0],
+            locationType: "hybrid",
+            location: "San Francisco, CA",
+            description: "Create cutting-edge AI solutions to real-world problems. Focus areas include computer vision, natural language processing, and machine learning.",
+            themes: "AI, Computer Vision, NLP, Machine Learning",
+            prizes: "Prizes include mentorship opportunities and investment potential"
+        },
+        {
+            id: 3,
+            name: "Web3 Developer Summit",
+            startDate: new Date(today.getFullYear(), today.getMonth() + 2, 10).toISOString().split('T')[0],
+            endDate: new Date(today.getFullYear(), today.getMonth() + 2, 12).toISOString().split('T')[0],
+            locationType: "in_person",
+            location: "New York, NY",
+            description: "Perfect for developers interested in blockchain technology. Build decentralized applications and smart contracts.",
+            themes: "Blockchain, Web3, Smart Contracts, DeFi",
+            prizes: "Over $15,000 in crypto prizes"
+        }
+    ];
+    
+    // Add the sample hackathons to the array
+    hackathons.push(...sampleHackathons);
+    
+    // Save to localStorage
+    saveHackathonsToLocalStorage();
+}
+
+// Check for existing login on page load
+function checkExistingLogin() {
+    const userLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    
+    if (userLoggedIn && user) {
+        loginUser(user);
+    }
+    
+    //const organizerLoggedIn = localStorage.getItem('isOrganizerLoggedIn') === 'true';
+    //const organizer = JSON.parse(localStorage.getItem('currentOrganizer'));
+    
+    //if (organizerLoggedIn && organizer) {
+    //    loginOrganizer(organizer);
+    //}
+}
+
+
+// Initialize the application
+function initializeApp() {
+    // Load data from localStorage
+    loadHackathonsFromLocalStorage();
+    loadTeamsFromLocalStorage();
+    
+    // Check for existing login
+    checkExistingLogin();
+    
+    // Initialize calendar
+    populateCalendar();
+    
+    // Populate hackathon dropdowns
+    populateHackathonDropdowns();
+    
+    // Load teams
+    loadTeams();
+}
+
+</script>
+</body>
+</html>
