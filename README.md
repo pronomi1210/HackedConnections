@@ -1,20 +1,75 @@
 ****HackedConnections****
 
-**Overview**
+🚀 **Overview**
+---------------
+HackedConnections serves as a central hub for hackathon communities, bridging participants and organizers through intuitive design and powerful features.
+Participants can explore upcoming events, find teammates based on complementary skills, and manage project milestones in real time.
+Meanwhile, organizers can create, update, and oversee hackathons with ease — from registration to final submissions.
+With secure authentication, personalized dashboards, and calendar integration, the platform ensures a smooth and engaging hackathon experience for everyone involved.
 
-HackedConnections is a platform tailored for developers, designers, and innovators to connect, collaborate, and engage in hackathons. Participants can seek teammates, oversee hackathon projects, and monitor their advancement. Additionally, organizers have the capability to efficiently post and manage hackathons.
 
-**Features**
 
-1. User Authentication: Secure registration and login for both participants and organizers.
+✨ **Features**
+----------------
 
-2. Profile Management: Modify user information, and showcase skills, accomplishments, and projects.
+👤 User Authentication
 
-3. Dashboard: Access information on upcoming and current hackathons
+Secure registration and login for both participants and organizers.
 
-4. Team Management: Form and join hackathon teams, with Skill matched teammate recommendations.
+Role-based access for tailored user experiences.
 
-5. Hackathon Management: Organizers can create, modify, and remove hackathons.
+🧩 Profile Management
 
-6. Calendar Integration: Organize and oversee hackathon timelines.
+Update and manage personal details.
+
+Showcase skills, achievements, and past projects.
+
+Discover and connect with potential teammates.
+
+📊 Dashboard
+
+Centralized access to current and upcoming hackathons.
+
+Personalized feed showing joined teams, projects, and progress metrics.
+
+🤝 Team Management
+
+Create or join hackathon teams with ease.
+
+Skill-based teammate recommendations for better collaboration.
+
+Manage team roles, communication, and project updates.
+
+🏆 Hackathon Management (Organizers)
+
+Organizers can create, edit, and delete hackathon listings.
+
+Manage registrations, teams, and submissions.
+
+Monitor participant engagement and progress.
+
+🗓️ Calendar Integration
+
+Integrated calendar for organizing and tracking hackathon timelines.
+
+Automatic reminders for submission deadlines and event milestones.
+
+
+
+📅 **Roadmap**
+-------------
+ Real-time chat and notifications
+
+ AI-based teammate matching
+
+ Public leaderboards for ongoing hackathons
+
+ Integration with GitHub for project tracking
+
+ Mobile app version (React Native)
+
+
+
+ Authors - Pronomi Roy 
+           Adarsh S Nair
 
