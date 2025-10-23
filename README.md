@@ -70,6 +70,10 @@ Automatic reminders for submission deadlines and event milestones.
 
 
 
- Authors - Pronomi Roy 
-           Adarsh S Nair
+
+
+
+ **Authors** 
+ - Pronomi Roy
+ - Adarsh S Nair
 
